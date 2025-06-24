@@ -5,6 +5,7 @@ import os
 print("OS INSTALLED")
 import aiohttp
 from datetime import datetime
+from telegram.ext import DictPersistence
 
 today = datetime.now().date()
 INVEST_AMOUNT = 1
@@ -173,7 +174,8 @@ async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 if __name__ == '__main__':
     print("Booting...")
-    app = Application.builder().token(TOKEN).build()
+    persistence = DictPersistence()
+    app = Application.builder().token(TOKEN).persistence(persistence).build()
 
     app.add_handler(CommandHandler('start', start_command))
 
