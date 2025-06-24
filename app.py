@@ -1,4 +1,3 @@
-import os
 from typing import Final
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes, ConversationHandler
@@ -21,16 +20,19 @@ adj_share_val: float
 dot_points: str
 
 API_url = "https://openrouter.ai/api/v1/chat/completions"
-API_key: Final = os.getenv('API_KEY')  # From environment variables
-TOKEN: Final = os.getenv('TOKEN')      # From environment variables
+API_key: Final = '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'
+TOKEN: Final = '7233321537:AAEO94hPuL0BtZ8XH6hQLugqqRsN9xem3Tk'
 BOT_USERUSERNAME: Final = '@asx_jaris_bot'
+
 
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text('How can I help you Lord M?')
 
+
 async def calc_start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     await update.message.reply_text("How much money is being invested?")
     return INVEST_AMOUNT
+
 
 async def get_info(update: Update, context: ContextTypes.DEFAULT_TYPE):
     headers = {
@@ -38,15 +40,20 @@ async def get_info(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "Content-Type": "application/json"
     }
     userinput = update.message.text
-    print(f"data boolean is {context.user_data['sessionbool']}")
-    if context.user_data.get("sessionbool", False):
+    
+    # Safely get 'sessionbool' with default False
+    session_bool = context.user_data.get("sessionbool", False)
+    print(f"data boolean is {session_bool}")
+    
+    if session_bool:
         data = {
             "model": "deepseek/deepseek-r1-0528:free",
             "messages": [
                 {
                     "role": "user",
                     "content": (
-                        f"summarize these session notes and keep concise, in which i as a tutor has taught: {context.user_data['dot_points']}, student name is {context.user_data['student_name']}, and write within 100 words, using first person language"
+                        f"summarize these session notes and keep concise, in which i as a tutor has taught: {context.user_data.get('dot_points', '')}, "
+                        f"student name is {context.user_data.get('student_name', '')}, and write within 100 words, using first person language"
                     )
                 }
             ]
@@ -58,7 +65,9 @@ async def get_info(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 {
                     "role": "user",
                     "content": (
-                        f"Get latest overnight news on gold futures and gold shares outlook, uranium prices outlook, crude oil prices and their impact on shares. Include any positive ASX news or developments that could boost company shares. State if ASX is trending up or down. Mention any global conflicts or agreements affecting ASX. Keep it concise, within 100 words. Include date of info, use date: {today}"
+                        f"Get latest overnight news on gold futures and gold shares outlook, uranium prices outlook, crude oil prices and their impact on shares. "
+                        f"Include any positive ASX news or developments that could boost company shares. State if ASX is trending up or down. "
+                        f"Mention any global conflicts or agreements affecting ASX. Keep it concise, within 100 words. Include date of info, use date: {today}"
                     )
                 }
             ]
@@ -74,10 +83,12 @@ async def get_info(update: Update, context: ContextTypes.DEFAULT_TYPE):
         print("Deepseek AI error:", e)
         await update.message.reply_text(f"Something went wrong - error: {e}")
 
+
 async def session_notes(update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data["sessionbool"] = True
     await update.message.reply_text("Enter dot points of session notes")
     return SESSION_NOTES
+
 
 async def get_datapoints(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
     context.user_data["dot_points"] = update.message.text
@@ -85,11 +96,13 @@ async def get_datapoints(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     await update.message.reply_text("Enter student name")
     return GET_DOT_POINTS
 
+
 async def get_tutor_name(update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data["student_name"] = update.message.text
     print(f"student name: {context.user_data['student_name']}")
     await get_info(update, context)
     return ConversationHandler.END
+
 
 async def share_val(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     try:
@@ -99,6 +112,7 @@ async def share_val(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
         return INVEST_AMOUNT
     await update.message.reply_text("What is share value?")
     return SHARE_VALUE
+
 
 async def calc_percent(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     try:
@@ -116,6 +130,7 @@ async def calc_percent(update: Update, context: ContextTypes.DEFAULT_TYPE) -> in
     await update.message.reply_text(f"Share value needed to break-even: {adj_share_val:.3f}")
     return ConversationHandler.END
 
+
 async def handle_response(text: str, update: Update) -> str:
     processed: str = text.lower()
     if processed in ["hi", "hello"]:
@@ -127,6 +142,7 @@ async def handle_response(text: str, update: Update) -> str:
     print("msg not understood")
     return "??"
 
+
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     request: str = update.message.text
     print("user entered: ", request)
@@ -134,8 +150,10 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     print("bot: ", handled)
     await update.message.reply_text(handled)
 
+
 async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
     print(f'Update "{update}" caused error "{context.error}"')
+
 
 if __name__ == '__main__':
     print("Booting...")
@@ -167,3 +185,4 @@ if __name__ == '__main__':
     app.add_error_handler(error)
     print("analyzing")
     app.run_polling(poll_interval=1)
+
