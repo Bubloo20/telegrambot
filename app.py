@@ -2,6 +2,7 @@ from typing import Final
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes, ConversationHandler
 import os
+print("OS INSTALLED")
 import aiohttp
 from datetime import datetime
 
