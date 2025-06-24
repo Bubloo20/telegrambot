@@ -19,11 +19,11 @@ share_num: float
 adj_share_val: float
 dot_points: str
 
+API_url = "https://openrouter.ai/api/v1/chat/completions"
 
 API_key = os.getenv("API_KEY")
 TOKEN = os.getenv("TOKEN")
-
-
+API_model: Final = "deepseek/deepseek-r1-0528-qwen3-8b:free"
 BOT_USERUSERNAME: Final = '@asx_jaris_bot'
 
 
@@ -49,7 +49,7 @@ async def get_info(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     if session_bool:
         data = {
-            "model": "deepseek/deepseek-r1-0528:free",
+            "model": f"{API_model}",
             "messages": [
                 {
                     "role": "user",
@@ -62,7 +62,7 @@ async def get_info(update: Update, context: ContextTypes.DEFAULT_TYPE):
         }
     else:
         data = {
-            "model": "deepseek/deepseek-r1-0528:free",
+            "model": f"{API_model}",
             "messages": [
                 {
                     "role": "user",
@@ -199,4 +199,5 @@ if __name__ == '__main__':
     app.add_error_handler(error)
     print("analyzing")
     app.run_polling(poll_interval=1)
+
 
