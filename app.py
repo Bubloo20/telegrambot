@@ -74,16 +74,22 @@ async def get_info(update: Update, context: ContextTypes.DEFAULT_TYPE):
         }
 
     try:
-        async with aiohttp.ClientSession() as session:
-            async with session.post(API_url, headers=headers, json=data) as resp:
-                response_json = await resp.json()
-                print("Full API response:", response_json)
+         async with aiohttp.ClientSession() as session:
+        async with session.post(API_url, headers=headers, json=data) as resp:
+            response_json = await resp.json()
+            print("✅ FULL API RESPONSE:")
+            print(response_json)
 
-                reply_text = response_json["choices"][0]["message"]["content"]
-                await update.message.reply_text(reply_text)
-    except Exception as e:
-        print("Deepseek AI error:", e)
-        await update.message.reply_text(f"Something went wrong - error: {e}")
+            choices = response_json.get("choices")
+            if not choices or len(choices) == 0:
+                error_msg = response_json.get("error", {}).get("message", "No error message")
+                await update.message.reply_text(
+                    f" The AI did not respond properly.\nDetails: {error_msg}"
+                )
+                return
+
+            reply_text = choices[0]["message"].get("content", "No content from AI")
+            await update.message.reply_text(reply_text)
 
 
 async def session_notes(update: Update, context: ContextTypes.DEFAULT_TYPE):
