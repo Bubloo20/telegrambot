@@ -49,7 +49,7 @@ async def get_info(update: Update, context: ContextTypes.DEFAULT_TYPE):
     print(f"data boolean is {session_bool}")
 
     if session_bool:
-        session_bool = False
+        context.user_data["sessionbool"] = False
         data = {
             "model": f"{API_model}",
             "messages": [
