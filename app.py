@@ -22,7 +22,7 @@ dot_points: str
 
 API_key = os.getenv("API_KEY")
 TOKEN = os.getenv("TOKEN")
-API_key: Final = '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'
+
 
 BOT_USERUSERNAME: Final = '@asx_jaris_bot'
 
