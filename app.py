@@ -117,6 +117,7 @@ async def get_tutor_name(update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data["student_name"] = update.message.text
     print(f"student name: {context.user_data['student_name']}")
     context.user_data["sessionbool"] = True
+    print(f"presend boolean is {context.user_data["sessionbool"]})
     await get_info(update, context)
     return ConversationHandler.END
 
