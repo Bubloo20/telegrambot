@@ -42,8 +42,7 @@ async def get_info(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "Authorization": f"Bearer {API_key}",
         "Content-Type": "application/json"
     }
-    userinput = update.message.text
-
+    
     # Safely get 'sessionbool' with default False
     session_bool = context.user_data.get("sessionbool", False)
     print(f"data boolean is {session_bool}")
@@ -101,7 +100,7 @@ async def get_info(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def session_notes(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    context.user_data["sessionbool"] = True
+    
     await update.message.reply_text("Enter dot points of session notes")
     return SESSION_NOTES
 
@@ -116,6 +115,7 @@ async def get_datapoints(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
 async def get_tutor_name(update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data["student_name"] = update.message.text
     print(f"student name: {context.user_data['student_name']}")
+    context.user_data["sessionbool"] = True
     await get_info(update, context)
     return ConversationHandler.END
 
