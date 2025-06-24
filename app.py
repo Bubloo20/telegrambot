@@ -19,9 +19,11 @@ share_num: float
 adj_share_val: float
 dot_points: str
 
-API_url = "https://openrouter.ai/api/v1/chat/completions"
+
+API_key = os.getenv("API_KEY")
+TOKEN = os.getenv("TOKEN")
 API_key: Final = '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'
-TOKEN: Final = '7233321537:AAEO94hPuL0BtZ8XH6hQLugqqRsN9xem3Tk'
+
 BOT_USERUSERNAME: Final = '@asx_jaris_bot'
 
 
