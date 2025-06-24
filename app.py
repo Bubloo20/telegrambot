@@ -20,7 +20,7 @@ adj_share_val: float
 dot_points: str
 
 API_url = "https://openrouter.ai/api/v1/chat/completions"
-API_key: Final = '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'
+API_key: Final = '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'
 TOKEN: Final = '7233321537:AAEO94hPuL0BtZ8XH6hQLugqqRsN9xem3Tk'
 BOT_USERUSERNAME: Final = '@asx_jaris_bot'
 
@@ -40,11 +40,11 @@ async def get_info(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "Content-Type": "application/json"
     }
     userinput = update.message.text
-    
+
     # Safely get 'sessionbool' with default False
     session_bool = context.user_data.get("sessionbool", False)
     print(f"data boolean is {session_bool}")
-    
+
     if session_bool:
         data = {
             "model": "deepseek/deepseek-r1-0528:free",
@@ -77,6 +77,8 @@ async def get_info(update: Update, context: ContextTypes.DEFAULT_TYPE):
         async with aiohttp.ClientSession() as session:
             async with session.post(API_url, headers=headers, json=data) as resp:
                 response_json = await resp.json()
+                print("Full API response:", response_json)
+
                 reply_text = response_json["choices"][0]["message"]["content"]
                 await update.message.reply_text(reply_text)
     except Exception as e:
@@ -185,4 +187,3 @@ if __name__ == '__main__':
     app.add_error_handler(error)
     print("analyzing")
     app.run_polling(poll_interval=1)
-
