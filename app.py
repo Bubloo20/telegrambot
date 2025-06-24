@@ -62,7 +62,7 @@ async def get_info(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 }
             ]
         }
-       # context.user_data["sessionbool"] = False
+        context.user_data["sessionbool"] = False
     if session_bool==False:
         data = {
             "model": f"{API_model}",
@@ -102,7 +102,7 @@ async def get_info(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def session_notes(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    
+    context.user_data["sessionbool"] = True
     await update.message.reply_text("Enter dot points of session notes")
     return SESSION_NOTES
 
@@ -117,7 +117,7 @@ async def get_datapoints(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
 async def get_tutor_name(update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data["student_name"] = update.message.text
     print(f"student name: {context.user_data['student_name']}")
-    context.user_data["sessionbool"] = True
+    
     print("presend boolean is ",{context.user_data["sessionbool"]})
     await get_info(update, context)
     return ConversationHandler.END
