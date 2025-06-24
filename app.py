@@ -72,7 +72,7 @@ async def get_datapoints(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
 async def get_tutor_name(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     context.user_data["student_name"] = update.message.text
     context.user_data["sessionbool"] = True  # ✅ Set TRUE at the end of note capture
-    await update.message.reply_text("✅ Noted. Now type /getinfo to summarize session.")
+    await get_info(update, context)
     return ConversationHandler.END
 
 # ─── INFO FETCHER ──────────────────────────────────────────────────────────────────
