@@ -166,7 +166,7 @@ if __name__ == '__main__':
         entry_points=[
             CommandHandler("calc", calc_start),
             CommandHandler("session_notes", session_notes),
-            CommandHandler(reset", reset_command)
+            CommandHandler("reset", reset_command)
         ],
         states={
             INVEST_AMOUNT: [MessageHandler(filters.TEXT & ~filters.COMMAND, share_val)],
