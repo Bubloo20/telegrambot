@@ -160,7 +160,8 @@ if __name__ == '__main__':
     conv_handler = ConversationHandler(
         entry_points=[
             CommandHandler("calc", calc_start),
-            CommandHandler("session_notes", session_notes)
+            CommandHandler("session_notes", session_notes),
+            CommandHandler("sessionnotes", session_notes)
         ],
         states={
             INVEST_AMOUNT: [MessageHandler(filters.TEXT & ~filters.COMMAND, share_val)],
