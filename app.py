@@ -58,6 +58,11 @@ async def calc_percent(update: Update, context: ContextTypes.DEFAULT_TYPE) -> in
     await update.message.reply_text(f"Share value needed to break-even: {adj_share_val:.3f}")
     return ConversationHandler.END
 
+async def reset(update:Update, context: ContextTypes.DEFAULT_TYPE):
+    context.user_data.clear()
+    await update.message.reply_text("data cleared")
+
+
 # ─── SESSION NOTES FLOW ────────────────────────────────────────────────────────────
 
 async def session_notes(update: Update, context: ContextTypes.DEFAULT_TYPE):
