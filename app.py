@@ -58,7 +58,7 @@ async def calc_percent(update: Update, context: ContextTypes.DEFAULT_TYPE) -> in
     await update.message.reply_text(f"Share value needed to break-even: {adj_share_val:.3f}")
     return ConversationHandler.END
 
-async def reset(update:Update, context: ContextTypes.DEFAULT_TYPE):
+async def reset_command(update:Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data.clear()
     await update.message.reply_text("data cleared")
 
@@ -166,7 +166,7 @@ if __name__ == '__main__':
         entry_points=[
             CommandHandler("calc", calc_start),
             CommandHandler("session_notes", session_notes),
-            CommandHandler("sessionnotes", session_notes)
+            CommandHandler(reset", reset_command)
         ],
         states={
             INVEST_AMOUNT: [MessageHandler(filters.TEXT & ~filters.COMMAND, share_val)],
