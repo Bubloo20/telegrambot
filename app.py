@@ -175,6 +175,7 @@ if __name__ == '__main__':
             GET_DOT_POINTS: [MessageHandler(filters.TEXT & ~filters.COMMAND, get_tutor_name)],
         },
         fallbacks=[CommandHandler("cancel", error)],
+        allow_reentry=True
     )
 
     app.add_handler(conv_handler)
